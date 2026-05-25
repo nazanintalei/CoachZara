@@ -484,10 +484,10 @@ footer{background:#040404;padding:80px 64px 40px;}
 
 <!-- ══ FROM HERE DOWN: normal white page, no video ══ -->
 
-<!-- VIDEO BREAK 1 — new video, scrub -->
-<div id="vb1-box" style="position:relative;width:100%;height:80vh;overflow:hidden;display:block;">
-  <video id="v-break1" muted playsinline preload="auto"
-    style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0;">
+<!-- VIDEO BREAK 1 -->
+<div style="position:relative;width:100%;height:80vh;overflow:hidden;">
+  <video autoplay muted loop playsinline
+    style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;">
     <source src="video3.mov" type="video/quicktime">
   </video>
   <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,8,8,.78) 0%,rgba(8,8,8,.4) 55%,rgba(8,8,8,.1) 100%);z-index:1;pointer-events:none;"></div>
@@ -498,7 +498,6 @@ footer{background:#040404;padding:80px 64px 40px;}
       <p class="bt-p">Whether you're stepping into a gym for the first time or preparing for the podium — Coach Zara builds champions at every level.</p>
     </div>
   </div>
-  <div id="vb1-prog" style="position:absolute;bottom:0;left:0;height:3px;background:var(--red);width:0%;z-index:3;"></div>
 </div>
 
 <!-- FOCUS -->
@@ -528,10 +527,10 @@ footer{background:#040404;padding:80px 64px 40px;}
   <div class="cert-extra rv"><div class="cedot"></div><span>Continuous education & evidence-based methods</span><div class="cedot"></div></div>
 </section>
 
-<!-- VIDEO BREAK 2 — video 2, scrub -->
-<div id="vb2-box" style="position:relative;width:100%;height:80vh;overflow:hidden;display:block;">
-  <video id="v-break2" muted playsinline preload="auto"
-    style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;z-index:0;">
+<!-- VIDEO BREAK 2 -->
+<div style="position:relative;width:100%;height:80vh;overflow:hidden;">
+  <video autoplay muted loop playsinline
+    style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;">
     <source src="video2.mov" type="video/quicktime">
   </video>
   <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,8,8,.6) 0%,rgba(8,8,8,.28) 55%,rgba(8,8,8,.08) 100%);z-index:1;pointer-events:none;"></div>
@@ -541,7 +540,6 @@ footer{background:#040404;padding:80px 64px 40px;}
       <div class="bt-by">— Coach Zara</div>
     </div>
   </div>
-  <div id="vb2-prog" style="position:absolute;bottom:0;left:0;height:3px;background:var(--red);width:0%;z-index:3;"></div>
 </div>
 
 <!-- ONLINE -->
@@ -693,42 +691,6 @@ setInterval(()=>{
 // ══════════════════════════════════════════════════
 //  SCRUB BOX HELPER — for the smaller break sections
 // ══════════════════════════════════════════════════
-function initScrub(videoId, boxId, progBarId, textInnerId){
-  const video = document.getElementById(videoId);
-  const box   = document.getElementById(boxId);
-  const fill  = document.getElementById(progBarId);
-  const txt   = textInnerId ? document.getElementById(textInnerId) : null;
-  if(!video||!box) return;
-
-  video.muted=true; video.playsInline=true; video.preload='auto';
-  video.pause(); video.currentTime=0;
-  video.addEventListener('loadedmetadata',()=>{video.pause();video.currentTime=0;});
-  video.addEventListener('play',()=>setTimeout(()=>video.pause(),0));
-  video.load();
-
-  setInterval(()=>{
-    if(!video.duration) return;
-    const rect    = box.getBoundingClientRect();
-    const scrolled= Math.max(0, window.innerHeight - rect.top);
-    const total   = box.offsetHeight + window.innerHeight;
-    const p       = Math.min(1, scrolled / total);
-
-    const target  = p * video.duration;
-    const diff    = target - video.currentTime;
-    if(Math.abs(diff) > 0.001) video.currentTime += diff * 0.3;
-
-    if(fill) fill.style.width = (p*100)+'%';
-
-    if(txt){
-      if(p > 0.05) txt.classList.add('vis');
-      else txt.classList.remove('vis');
-    }
-  }, 40);
-}
-
-initScrub('v-break1','vb1-box','vb1-prog','bt1-inner');
-initScrub('v-break2','vb2-box','vb2-prog','bt2-inner');
-
 // ── CTA autoplay ──
 document.querySelectorAll('.cta-vwrap video').forEach(v=>{v.muted=true;v.playsInline=true;v.play().catch(()=>{});});
 
