@@ -557,7 +557,7 @@ footer{background:#040404;padding:80px 64px 40px;}
 
 <!-- CTA -->
 <section class="cta-section" id="contact">
-  <div class="cta-vwrap"><video autoplay muted loop playsinline><source src="video2.mp4" type="video/mp4"></video></div>
+  <div class="cta-vwrap"><video muted playsinline><source src="video2.mp4" type="video/mp4"></video></div>
   <div class="cta-voverlay"></div>
   <div class="cta-content">
     <h2 class="cta-h rv">READY TO UNLOCK<br>YOUR <span class="red">POTENTIAL?</span></h2>
@@ -713,7 +713,8 @@ function initScrub(videoId, boxId, progBarId, textInnerId){
     const total   = box.offsetHeight + window.innerHeight;
     const p       = Math.min(1, scrolled / total);
 
-    const target  = p * video.duration;
+    // Always set currentTime so video shows even without scrolling
+    const target  = Math.max(0.01, p * video.duration);
     const diff    = target - video.currentTime;
     if(Math.abs(diff) > 0.001) video.currentTime += diff * 0.3;
 
@@ -729,8 +730,7 @@ function initScrub(videoId, boxId, progBarId, textInnerId){
 initScrub('v-break1','vb1-box','vb1-prog','bt1-inner');
 initScrub('v-break2','vb2-box','vb2-prog','bt2-inner');
 
-// ── CTA autoplay ──
-document.querySelectorAll('.cta-vwrap video').forEach(v=>{v.muted=true;v.playsInline=true;v.play().catch(()=>{});});
+
 
 // ── magnetic buttons ──
 document.querySelectorAll('.btn-red,.btn-cta,.nav-cta').forEach(btn=>{
