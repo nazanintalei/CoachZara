@@ -702,7 +702,7 @@ function initScrub(videoId, boxId, progBarId, textInnerId){
 
   video.muted=true; video.playsInline=true; video.preload='auto';
   video.pause(); video.currentTime=0;
-  video.addEventListener('loadedmetadata',()=>{video.pause();video.currentTime=0;});
+  video.addEventListener('loadedmetadata',()=>{ video.pause(); video.currentTime=0.01; });
   video.addEventListener('play',()=>setTimeout(()=>video.pause(),0));
   video.load();
 
